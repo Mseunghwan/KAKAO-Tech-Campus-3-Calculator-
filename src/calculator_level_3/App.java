@@ -1,8 +1,9 @@
-package calculator_level_2;
+package calculator_level_3;
 
 import java.util.Scanner;
 
-// Lv 2. 클래스를 적용해 기본적인 연산을 수행할 수 있는 계산기 만들기
+// Lv 3. Enum, 제네릭, 람다 & 스트림을 이해한 계산기 만들기
+
 public class App {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -12,7 +13,7 @@ public class App {
         char what;
         int result = 0;
 
-        Calculator calc = new Calculator();
+        ArithmeticCalculator calc = new ArithmeticCalculator();
 
         boolean keepgoing;
         do {
