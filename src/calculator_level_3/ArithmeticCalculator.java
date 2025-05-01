@@ -6,35 +6,38 @@ import java.util.Scanner;
 
 // Lv 3. Enum, 제네릭, 람다 & 스트림을 이해한 계산기 만들기
 
-public class ArithmeticCalculator<T> {
+public class ArithmeticCalculator<T extends Number> {
     // 연산 결과 저장
-    private Collection<Double> results;
+    private Collection<Double> numbers;
 
     public ArithmeticCalculator() {
-        results = new ArrayList<>();
+        numbers = new ArrayList<>();
     }
 
-    public int calculate(int num_1, int num_2, char what) {
+    public double calculate(T num_1, T num_2, OperatorType what) {
         Scanner sc = new Scanner(System.in);
 
-        int result = 0;
+        double first = num_1.doubleValue();
+        double second = num_2.doubleValue();
+        double result = 0;
+
         boolean keepgoing;
         switch (what) {
-            case '+':
-                result = num_1 + num_2;
+            case ADD :
+                result = first + second;
                 break;
-            case '-':
-                result = num_1 - num_2;
+            case MINUS :
+                result = first - second;
                 break;
-            case '*':
-                result = num_1 * num_2;
+            case MULTIPLY :
+                result = first * second;
                 break;
-            case '/':
-                while (num_2 == 0) {
-                    System.out.println("나눗셈 연산에서 분모(두번째 정수)에 0이 입력될 수 없습니다.\n 다시 입력해주세요.");
-                    num_2 = sc.nextInt();
+            case DIVIDE :
+                if (second == 0) {
+                    System.out.println("나눗셈 연산에서 분모가 0이 될 수 없습니다.\n 1을 기준으로 시행합니다.");
+                    second = 1;
                 }
-                result = num_1 / num_2;
+                result = first / second;
                 break;
             default:
                 System.out.println("사칙연산 기호가 유효하지 않습니다.\n 덧셈(+), 뺄셈(-), 곱셈(*), 나눗셈(/) 중 하나를 입력해주세요.");
@@ -45,11 +48,18 @@ public class ArithmeticCalculator<T> {
         return result;
     }
 
-    public Collection<Integer> getNumbers() {
+    // 저장된 연산 결과 중 입력받은 값 보다 큰 결과값 출력
+    public void biggerThanScanner(double here){
+        numbers.stream()
+                .filter(r -> r > here) // 조건
+                .forEach(System.out::println); // 출력
+    }
+
+    public Collection<Double> getNumbers() {
         return numbers;
     }
 
-    public void setNumbers(Collection<Integer> numbers) {
+    public void setNumbers(Collection<Double> numbers) {
         this.numbers = numbers;
     }
 
@@ -57,7 +67,7 @@ public class ArithmeticCalculator<T> {
         if (numbers.isEmpty()){
             System.out.println("삭제할 결과가 없습니다.");
         } else {
-            ((ArrayList<Integer>) numbers).remove(0);
+            ((ArrayList<Double>) numbers).remove(0);
         }
     }
 
